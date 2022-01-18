@@ -11,17 +11,26 @@
         <div class="container">
             <h1>😡</h1>
             <form onsubmit="handleForm(event)">
-                <input type="text" name="providedUrl" id="providedUrl" />
+                <p>
+                    <label for="providedUrl">URL</label>
+                    <input type="text" name="providedUrl" id="providedUrl" />
+                </p>
+                <br />
                 <p>
                     https://😡🤖.ml/
                     <input type="text" name="requestedPath" id="requestedPath" />
-                    <script src="main.js"></script>
+                    <br />
+                    <span>
+                        This field is optional, a 6-character string will be generated for you if you dont provide
+                        anything.
+                    </span>
                 </p>
-                <input type="submit" value="Shorten ->" />
+                <input type="submit" value="Shorten" />
             </form>
             <div id="newUrl">
                 <p>Send a request to shorten a url.</p>
             </div>
         </div>
+        <script src="main.js"></script>
     </body>
 </html>

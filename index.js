@@ -9,12 +9,15 @@ const Short = require('./model');
 // Get environment variables
 const { PORT = 3000, DATABASE_URL = 'mongodb://root:example@localhost:27017/' } = process.env;
 
+// use: docker run -d -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=example -p 27017:27017 mongo
+// to create a dev container with mongo
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, './public')));
 
 if (DATABASE_URL) {
-    mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.connect(DATABASE_URL);
 } else {
     // Maybe in-memory storage sometime?
     throw new Error('DATABASE_URL is not set');
@@ -30,8 +33,10 @@ app.post('/api/shorten', async (req, res) => {
         providedUrl = providedUrl.trim();
     }
 
+    // Make sure the requested Path is URL safe
     if (requestedPath && requestedPath.trim().length > 0) {
         requestedPath = requestedPath.trim();
+        requestedPath = encodeURIComponent(requestedPath);
     } else {
         requestedPath = null;
     }
@@ -50,6 +55,21 @@ app.post('/api/shorten', async (req, res) => {
                 url: `${req.protocol}://${req.get('host')}/${saved.shortPath}`,
                 pointingTo: saved.url,
             });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+});
+
+app.get('/api/:url', async (req, res) => {
+    const shortPath = req.params.url;
+
+    try {
+        const url = await Short.findOne({ shortPath: shortPath }).exec();
+        if (url) {
+            return res.json(url);
+        } else {
+            return res.status(404).json({ message: 'URL not found' });
         }
     } catch (err) {
         return res.status(500).json({ message: err.message });
