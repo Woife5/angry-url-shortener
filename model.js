@@ -20,6 +20,10 @@ const shortSchema = new mongoose.Schema(
             expires: 86400000 * 365, // entries expire after 1 year
             default: Date.now,
         },
+        uses: {
+            type: Number,
+            default: 0,
+        }
     },
     {
         autoCreate: true,

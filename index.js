@@ -63,6 +63,7 @@ app.get('/:url', async (req, res, next) => {
         const url = await Short.findOne({ shortPath: shortPath }).exec();
         if (url) {
             url.lastUsed = Date.now();
+            url.uses += 1;
             await url.save();
             return res.redirect(url.url);
         } else {
