@@ -62,7 +62,7 @@ app.post('/api/shorten', async (req, res) => {
 });
 
 app.get('/api/:url', async (req, res) => {
-    const shortPath = req.params.url;
+    const shortPath = encodeURIComponent(req.params.url);
 
     try {
         const url = await Short.findOne({ shortPath: shortPath }).exec();
@@ -77,7 +77,7 @@ app.get('/api/:url', async (req, res) => {
 });
 
 app.get('/:url', async (req, res, next) => {
-    const shortPath = req.params.url;
+    const shortPath = encodeURIComponent(req.params.url);
 
     try {
         const url = await Short.findOne({ shortPath: shortPath }).exec();
@@ -85,7 +85,7 @@ app.get('/:url', async (req, res, next) => {
             url.lastUsed = Date.now();
             url.uses += 1;
             await url.save();
-            return res.redirect(url.url);
+            return res.redirect(301, url.url);
         } else {
             return next();
         }
