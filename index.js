@@ -23,6 +23,9 @@ if (DATABASE_URL) {
     throw new Error('DATABASE_URL is not set');
 }
 
+// Some things cannot be reserved
+const reserved = ['index.html', 'favicon.ico', 'stats.html', 'js/main.js', 'js/stats.js', 'css/main.css'];
+
 app.post('/api/shorten', async (req, res) => {
     let requestedPath = req.body.requestedPath;
     let providedUrl = req.body.providedUrl;
@@ -36,6 +39,9 @@ app.post('/api/shorten', async (req, res) => {
     // Make sure the requested Path is URL safe
     if (requestedPath && requestedPath.trim().length > 0) {
         requestedPath = requestedPath.trim();
+        if (reserved.includes(requestedPath)) {
+            return res.status(400).json({ message: 'Sorry, that just will not work...' });
+        }
         requestedPath = encodeURIComponent(requestedPath);
     } else {
         requestedPath = null;
@@ -61,7 +67,16 @@ app.post('/api/shorten', async (req, res) => {
     }
 });
 
-app.get('/api/:url', async (req, res) => {
+app.get('/api/url', async (req, res) => {
+    try {
+        const urls = await Short.find({}).exec();
+        return res.json(urls);
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+});
+
+app.get('/api/url/:url', async (req, res) => {
     const shortPath = encodeURIComponent(req.params.url);
 
     try {
