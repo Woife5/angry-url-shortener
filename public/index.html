@@ -12,16 +12,36 @@
 </head>
 
 <body>
-    <h1>😡</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light position-absolute start-0 end-0">
+        <div class="container-fluid ms-5 me-5">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand" href="#">
+              <span class="fs-1">😡</span>
+          </a>
+          <div class="fs-6 align-middle justify-content-start ms-2">url shortener</div>
+        </div>
 
-    <div class="min-vh-100 container-fluid d-flex align-items-center justify-content-center w-100">
+          <div id="newUrl" class="list-group align-self-center">
+            <div class="list-group-item list-group-item-light text-center align-middle">Send a request to shorten a url.</div>
+          </div>
+        </div>
+      </nav>
+
+    <div class="min-vh-100 container-fluid d-flex align-items-center justify-content-center w-100" id="wrapper">
         <div class="align-self-center">
             <form onsubmit="handleForm(event)">
+                <div class="collapse row container-fluid justify-content-end align-items-center mb-2" id="marker">
+                <button type="button" class=" btn btn-dark position-relative justify-content-center badge text-wrap" style="width: 16rem">
+                    The second field is optional, a 6-character string will be generated for you if you don't
+                        provide anything. <svg width="1em" height="1em" viewBox="0 0 16 16" class="position-absolute top-100 start-50 translate-middle mt-1 bi bi-caret-down-fill" fill="#212529" xmlns="http://www.w3.org/2000/svg"><path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
+                  </button>
+                </div>
+
                 <div class="row container-fluid justify-content-md-center">
                     <div class="form-floating col">
                         <input type="text" name="providedUrl" id="providedUrl" class="form-control form-control-lg"
                             placeholder="https://www.example.com" />
-                        <label for="providedUrl">URL</label>
+                        <label for="providedUrl" class="ms-3">URL</label>
                     </div>
 
                     <div class="col-md-auto container-fluid text-center align-self-center"><svg
@@ -29,27 +49,20 @@
                             class="bi bi-arrow-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
-                        </svg></div>
+                        </svg>
+                    </div>
+
                     <div class="input-group col">
                         <span class="input-group-text" id="basic-addon3">https://😡🤖.ml/</span>
 
                         <input type="text" name="requestedPath" id="requestedPath" class="form-control form-control-lg"
-                            aria-describedby="basic-addon3" />
+                            aria-describedby="basic-addon3" data-bs-toggle="collapse" data-bs-target="#marker" aria-controls="marker" aria-expanded="false" aria-label="Toggle adding"/>
                     </div>
                 </div>
-                <p>
-                    <span>
-                        This field is optional, a 6-character string will be generated for you if you don't
-                        provide anything.
-                    </span>
-                </p>
-                <div class="d-grid gap-2 col-6 mx-auto">
+                <div class="d-grid gap-2 col-6 mx-auto mt-5">
                     <input type="submit" value="Shorten" class="btn btn-outline-danger btn-lg" role="button" />
                 </div>
             </form>
-            <div id="newUrl" class="list-group mb-3">
-                <p class="list-group-item list-group-item-light">Send a request to shorten a url.</p>
-            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

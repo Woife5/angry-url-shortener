@@ -25,9 +25,9 @@ function handleForm(event) {
             }
         })
         .then(json => {
-            output.innerHTML = `<p class='list-group-item list-group-item-success'>Success! Your shortened URL is: <a href="${json.url}">${json.url}</a></p><p>Pointing to: <a href="${json.pointingTo}">${json.pointingTo}</a></p>`;
+            output.innerHTML = `<div class='list-group-item list-group-item-success'>Success! Your shortened URL is: <a href="${json.url}">${json.url}</a> (Pointing to: <a href="${json.pointingTo}">${json.pointingTo}</a>)</div>`;
         })
         .catch(err => {
-            output.innerHTML = `<p class='list-group-item list-group-item-danger'>Error: ${err.message}</p>`;
+            output.innerHTML = `<div class='list-group-item list-group-item-danger'>Error: ${err.message}</div>`;
         });
 }

@@ -17,7 +17,7 @@ function getAllStats() {
                 const ms = new Date(item.lastUsed).getTime() + 86400000 * 365;
                 const days = Math.floor((ms - Date.now()) / 86400000);
 
-                tr.innerHTML = `<td>${decodeURIComponent(item.shortPath)}</td><td>${item.url}</td><td>${
+                tr.innerHTML = `<td>${decodeURIComponent(item.shortPath)}</td><td class="text-truncate" style="max-width:300px"><a href="${item.url}">${item.url}</a></td><td>${
                     item.uses
                 }</td><td>${new Date(item.lastUsed).toLocaleDateString('de-AT')} (${days} days remaining)</td>`;
                 list.appendChild(tr);
